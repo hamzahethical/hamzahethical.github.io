@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Md Hamzah — Ethical Hacker & Security Researcher</title>
+<meta name="description" content="Cybersecurity specialist, ethical hacker, bug bounty hunter. Building real security tools.">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#030a0f;--accent:#00e5ff;--green:#00ff88;
+  --yellow:#f59e0b;--red:#ff2d55;--purple:#a855f7;
+  --text:#c8dce8;--text2:#5a7a8a;--border:rgba(0,229,255,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;}
+#matrix-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.04;pointer-events:none;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:60px;background:rgba(3,10,15,0.95);border-bottom:1px solid var(--border);backdrop-filter:blur(16px);}
+.nav-logo{font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:var(--accent);text-shadow:0 0 20px rgba(0,229,255,0.4);letter-spacing:0.15em;}
+.nav-links{display:flex;gap:6px;}
+.nav-link{font-family:'JetBrains Mono',monospace;font-size:0.65rem;padding:5px 14px;border:1px solid var(--border);border-radius:4px;color:var(--text2);text-decoration:none;transition:all 0.2s;letter-spacing:0.08em;}
+.nav-link:hover{border-color:var(--accent);color:var(--accent);}
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px 60px;text-align:center;}
+.hero-badge{font-family:'JetBrains Mono',monospace;font-size:0.65rem;padding:5px 16px;border:1px solid rgba(0,255,136,0.3);border-radius:20px;color:var(--green);background:rgba(0,255,136,0.05);letter-spacing:0.15em;margin-bottom:28px;display:inline-block;}
+.hero h1{font-family:'Orbitron',monospace;font-size:clamp(2.2rem,6vw,4.5rem);font-weight:900;line-height:1.1;margin-bottom:16px;}
+.hero h1 .name{color:#fff;}
+.hero h1 .role{color:var(--accent);text-shadow:0 0 40px rgba(0,229,255,0.5);display:block;font-size:clamp(1rem,2.5vw,1.8rem);}
+.hero-sub{color:var(--text2);font-size:0.95rem;max-width:540px;margin:0 auto 36px;line-height:1.75;}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:60px;}
+.btn{font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:11px 26px;border-radius:6px;cursor:pointer;text-decoration:none;transition:all 0.25s;letter-spacing:0.07em;border:1px solid;}
+.btn-primary{background:rgba(0,229,255,0.12);border-color:var(--accent);color:var(--accent);}
+.btn-primary:hover{background:rgba(0,229,255,0.22);box-shadow:0 0 24px rgba(0,229,255,0.3);transform:translateY(-2px);}
+.btn-ghost{background:transparent;border-color:var(--border);color:var(--text);}
+.btn-ghost:hover{border-color:var(--text);color:#fff;}
+.stats-row{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;max-width:620px;margin:0 auto;}
+.stat-item{flex:1;padding:18px;text-align:center;border-right:1px solid var(--border);}
+.stat-item:last-child{border-right:none;}
+.stat-num{font-family:'Orbitron',monospace;font-size:1.6rem;font-weight:900;color:var(--accent);}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text2);margin-top:4px;letter-spacing:0.1em;text-transform:uppercase;}
+section{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:80px 24px;}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--accent);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.section-title{font-family:'Orbitron',monospace;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:900;color:#fff;margin-bottom:40px;}
+.video-outer{max-width:900px;margin:0 auto;}
+.video-wrap{border:1px solid rgba(0,229,255,0.25);border-radius:12px;overflow:hidden;background:#000;position:relative;box-shadow:0 0 60px rgba(0,229,255,0.08);}
+.rec-badge{position:absolute;top:14px;left:16px;z-index:5;font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--red);letter-spacing:0.1em;display:flex;align-items:center;gap:5px;}
+.rec-dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse-red 1s ease-in-out infinite;}
+@keyframes pulse-red{0%,100%{opacity:1}50%{opacity:0.3}}
+.video-wrap video{width:100%;display:block;max-height:520px;object-fit:contain;background:#000;}
+.video-label{padding:14px 20px;background:rgba(6,15,26,0.95);border-top:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--text2);display:flex;align-items:center;gap:10px;}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;}
+.tool-card{background:rgba(6,15,26,0.8);border:1px solid var(--border);border-radius:10px;padding:22px;transition:all 0.3s;position:relative;overflow:hidden;text-decoration:none;display:block;color:inherit;}
+.tool-card:hover{border-color:rgba(0,229,255,0.35);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.5);}
+.tool-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.tool-icon{font-size:1.5rem;}
+.tool-tag{font-family:'JetBrains Mono',monospace;font-size:0.58rem;padding:3px 8px;border-radius:3px;border:1px solid;}
+.tool-tag.live{border-color:var(--green);color:var(--green);background:rgba(0,255,136,0.08);}
+.tool-name{font-family:'Orbitron',monospace;font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:8px;}
+.tool-desc{font-size:0.8rem;color:var(--text2);line-height:1.6;margin-bottom:14px;}
+.tool-apis{display:flex;gap:6px;flex-wrap:wrap;}
+.api-pill{font-family:'JetBrains Mono',monospace;font-size:0.58rem;padding:2px 8px;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.2);border-radius:3px;color:var(--purple);}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
+.skill-card{background:rgba(6,15,26,0.8);border:1px solid var(--border);border-radius:8px;padding:16px 20px;}
+.skill-cat{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px;}
+.skill-items{display:flex;flex-wrap:wrap;gap:6px;}
+.skill-item{font-family:'JetBrains Mono',monospace;font-size:0.65rem;padding:3px 10px;border:1px solid var(--border);border-radius:3px;color:var(--text);}
+.contact-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:28px;}
+.contact-btn{font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:11px 24px;border-radius:6px;text-decoration:none;border:1px solid var(--border);color:var(--text);transition:all 0.2s;display:flex;align-items:center;gap:8px;}
+.contact-btn:hover{border-color:var(--accent);color:var(--accent);}
+footer{position:relative;z-index:1;text-align:center;padding:32px;border-top:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text2);}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--border);}
+@media(max-width:640px){
+  nav .nav-links{display:none;}
+  .stats-row{flex-direction:column;}
+  .stat-item{border-right:none;border-bottom:1px solid var(--border);}
+}
+</style>
+</head>
+<body>
+<canvas id="matrix-canvas"></canvas>
+
+<nav>
+  <div class="nav-logo">@HAMZAHETHICAL</div>
+  <div class="nav-links">
+    <a class="nav-link" href="#demo">Demo</a>
+    <a class="nav-link" href="#tools">Tools</a>
+    <a class="nav-link" href="#skills">Skills</a>
+    <a class="nav-link" href="#contact">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">🛡️ ETHICAL HACKER &nbsp;|&nbsp; SECURITY RESEARCHER</div>
+  <h1>
+    <span class="name">Md Hamzah</span>
+    <span class="role" id="typed"></span>
+  </h1>
+  <p class="hero-sub">Cybersecurity student from Kolkata, India. Building real-world security tools, hunting bugs, and mastering offensive security. Code is the weapon. Knowledge is the shield.</p>
+  <div class="hero-btns">
+    <a class="btn btn-primary" href="#demo">▶ Watch Demo</a>
+    <a class="btn btn-primary" href="#tools">🔧 View Tools</a>
+    <a class="btn btn-ghost" href="https://github.com/hamzahethical" target="_blank">GitHub ↗</a>
+  </div>
+  <div class="stats-row">
+    <div class="stat-item"><div class="stat-num">6+</div><div class="stat-label">Live Tools</div></div>
+    <div class="stat-item"><div class="stat-num">0</div><div class="stat-label">Backend Needed</div></div>
+    <div class="stat-item"><div class="stat-num">∞</div><div class="stat-label">Learning</div></div>
+    <div class="stat-item"><div class="stat-num">1</div><div class="stat-label">Mission</div></div>
+  </div>
+</div>
+
+<section id="demo">
+  <div class="section-label">Live Demo</div>
+  <div class="section-title">See the Tools in Action</div>
+  <div class="video-outer">
+    <div class="video-wrap">
+      <div class="rec-badge"><div class="rec-dot"></div>DEMO REC</div>
+      <video controls preload="metadata">
+        <source src="demo.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+      </video>
+      <div class="video-label">
+        🎬 <span style="color:var(--accent)">Tool Demo</span> &nbsp;—&nbsp; Real recon, cryptography & security auditing &nbsp;|&nbsp; 100% browser-based · No backend · No server
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tools">
+  <div class="section-label">Projects</div>
+  <div class="section-title">Real Security Tools — Live & Working</div>
+  <div class="tools-grid">
+    <a class="tool-card" href="https://hamzahethical.github.io/ReconX" target="_blank">
+      <div class="tool-top"><div class="tool-icon">🔍</div><div class="tool-tag live">LIVE</div></div>
+      <div class="tool-name">ReconX</div>
+      <div class="tool-desc">Real subdomain enumeration via Certificate Transparency logs. Live IP resolution, full DNS record analysis (A, AAAA, MX, NS, TXT, CNAME), JSON export.</div>
+      <div class="tool-apis"><span class="api-pill">crt.sh</span><span class="api-pill">DNS-over-HTTPS</span><span class="api-pill">CT Logs</span></div>
+    </a>
+    <a class="tool-card" href="https://hamzahethical.github.io/CipherLab" target="_blank">
+      <div class="tool-top"><div class="tool-icon">🔐</div><div class="tool-tag live">LIVE</div></div>
+      <div class="tool-name">CipherLab</div>
+      <div class="tool-desc">AES-256-GCM encryption/decryption, SHA-256/512 hashing, JWT decoder, password entropy analyzer, RSA-2048 key generation. Fully in-browser SubtleCrypto.</div>
+      <div class="tool-apis"><span class="api-pill">SubtleCrypto</span><span class="api-pill">WebCrypto API</span><span class="api-pill">PBKDF2</span></div>
+    </a>
+    <a class="tool-card" href="https://hamzahethical.github.io/WebAudit" target="_blank">
+      <div class="tool-top"><div class="tool-icon">🛡️</div><div class="tool-tag live">LIVE</div></div>
+      <div class="tool-name">WebAudit</div>
+      <div class="tool-desc">Website security scanner — DNS records, IP geolocation, SPF/DMARC/DKIM email security check, password breach detection via k-anonymity HIBP API.</div>
+      <div class="tool-apis"><span class="api-pill">ipwho.is</span><span class="api-pill">HIBP k-anon</span><span class="api-pill">DNS</span></div>
+    </a>
+    <a class="tool-card" href="https://hamzahethical.github.io/GhostTrace" target="_blank">
+      <div class="tool-top"><div class="tool-icon">👻</div><div class="tool-tag live">LIVE</div></div>
+      <div class="tool-name">GhostTrace</div>
+      <div class="tool-desc">IP intelligence and geolocation tool. Visual network path mapping, threat scoring, ASN lookup, real-time IP reputation analysis.</div>
+      <div class="tool-apis"><span class="api-pill">ipwho.is</span><span class="api-pill">ipinfo.io</span><span class="api-pill">BGP</span></div>
+    </a>
+    <a class="tool-card" href="https://hamzahethical.github.io/NetPulse" target="_blank">
+      <div class="tool-top"><div class="tool-icon">📡</div><div class="tool-tag live">LIVE</div></div>
+      <div class="tool-name">NetPulse</div>
+      <div class="tool-desc">Network monitoring dashboard — real-time DNS probing, HTTP status checking, latency measurement, SSL certificate validation.</div>
+      <div class="tool-apis"><span class="api-pill">DNS-over-HTTPS</span><span class="api-pill">Fetch API</span></div>
+    </a>
+    <a class="tool-card" href="https://hamzahethical.github.io/CyberDash" target="_blank">
+      <div class="tool-top"><div class="tool-icon">💻</div><div class="tool-tag live">LIVE</div></div>
+      <div class="tool-name">CyberDash</div>
+      <div class="tool-desc">Hacker toolkit dashboard — Matrix rain UI, IP geo map, DNS lookup, hash generator, password analyzer, CIDR calculator. All client-side.</div>
+      <div class="tool-apis"><span class="api-pill">ipapi.co</span><span class="api-pill">WebCrypto</span></div>
+    </a>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-label">Expertise</div>
+  <div class="section-title">What I Know</div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-cat">Offensive Security</div>
+      <div class="skill-items">
+        <span class="skill-item">Recon</span><span class="skill-item">OSINT</span><span class="skill-item">Subdomain Enum</span><span class="skill-item">Port Scanning</span><span class="skill-item">Bug Bounty</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Web Security</div>
+      <div class="skill-items">
+        <span class="skill-item">XSS</span><span class="skill-item">SQLi</span><span class="skill-item">CSRF</span><span class="skill-item">SSRF</span><span class="skill-item">IDOR</span><span class="skill-item">Headers</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Cryptography</div>
+      <div class="skill-items">
+        <span class="skill-item">AES-256-GCM</span><span class="skill-item">RSA</span><span class="skill-item">SHA Family</span><span class="skill-item">PBKDF2</span><span class="skill-item">JWT</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Languages & Tools</div>
+      <div class="skill-items">
+        <span class="skill-item">Python</span><span class="skill-item">JavaScript</span><span class="skill-item">HTML/CSS</span><span class="skill-item">Bash</span><span class="skill-item">Nmap</span><span class="skill-item">Burp Suite</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="text-align:center;">
+  <div class="section-label" style="justify-content:center;"></div>
+  <div class="section-title">Get In Touch</div>
+  <p style="color:var(--text2);font-size:0.9rem;max-width:440px;margin:0 auto 20px;line-height:1.7;">Open to collaborations, bug bounty team-ups, and internship / job opportunities in cybersecurity.</p>
+  <div class="contact-row">
+    <a class="contact-btn" href="https://github.com/hamzahethical" target="_blank">🐙 GitHub</a>
+    <a class="contact-btn" href="mailto:hamzahethical@gmail.com">✉️ Email</a>
+    <a class="contact-btn" href="#demo">▶ Watch Demo</a>
+  </div>
+</section>
+
+<footer>
+  <div style="font-family:'Orbitron',monospace;color:var(--accent);margin-bottom:8px;font-size:0.8rem;">@hamzahethical</div>
+  Built with real APIs · No backend · Deployed on GitHub Pages<br>
+  <span style="color:rgba(255,255,255,0.12)">"Talk is cheap. Show me the code." — Linus Torvalds</span>
+</footer>
+
+<script>
+(function(){
+  const c=document.getElementById('matrix-canvas');
+  const ctx=c.getContext('2d');
+  function resize(){c.width=window.innerWidth;c.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  const chars='01アイウエオカキクケコハヒフヘホ';
+  let cols=Math.floor(c.width/14);
+  let drops=Array(cols).fill(0);
+  setInterval(()=>{
+    ctx.fillStyle='rgba(3,10,15,0.05)';ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle='#00e5ff';ctx.font='12px monospace';
+    drops.forEach((y,i)=>{
+      ctx.fillText(chars[Math.floor(Math.random()*chars.length)],i*14,y*14);
+      if(y*14>c.height&&Math.random()>0.975)drops[i]=0;drops[i]++;
+    });
+  },60);
+})();
+(function(){
+  const lines=['// Ethical Hacker','// Security Researcher','// Bug Bounty Hunter','// Tool Builder'];
+  let li=0,ci=0,del=false;
+  const el=document.getElementById('typed');
+  function tick(){
+    const t=lines[li];
+    if(!del){el.textContent=t.slice(0,ci+1);ci++;if(ci===t.length){del=true;setTimeout(tick,2200);return;}}
+    else{el.textContent=t.slice(0,ci-1);ci--;if(ci===0){del=false;li=(li+1)%lines.length;}}
+    setTimeout(tick,del?60:90);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>
